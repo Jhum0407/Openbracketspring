@@ -17,9 +17,8 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class UserController {
     User[] users;
-    UserList userList = new UserList();
+    UserList userList;
 
-    @RequestMapping("/consumefile")
     public void makePeople() throws java.io.IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategy.UPPER_CAMEL_CASE);
@@ -29,12 +28,19 @@ public class UserController {
 
 
     @RequestMapping("/sendfile")
-    public String sendPeople() throws java.io.IOException {
+    public User[] sendPeople() throws java.io.IOException {
+        RestTemplate restTemplate = new RestTemplate();
         makePeople();
         userList=new UserList(users);
         userList.sortList();
-        return userList.toString();
+        ObjectMapper mapper = new ObjectMapper();
+        User[] finalList= userList.getNewList().toArray(new User[userList.getNewList().size()]);
+        mapper.writeValue(new File("C:\\Users\\Jelehu\\Documents\\newUserList.json"), finalList);
+        return finalList;
     }
+
+
+
 
 
 

@@ -1,13 +1,14 @@
 package h.j.results;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.web.client.RestTemplate;
 
 
 public class User {
-
+    @JsonIgnoreProperties(ignoreUnknown =true)
     private String name;
-    private int rank;
-    private int score;
+    private String rank;
+    private String score;
     private String email;
     private String country;
     private String city;
@@ -20,8 +21,10 @@ public class User {
     private String linkedIn;
     private String resume;
     private String notes;
-    private int zipCode;
+    private String zipCode;
     private String gender;
+    private String distance;
+
 
 
     public String getName() {
@@ -32,19 +35,20 @@ public class User {
         this.name = name;
     }
 
-    public int getRank() {
+    public String getRank() {
         return rank;
     }
 
-    public void setRank(int rank) {
+
+    public void setRank(String rank) {
         this.rank = rank;
     }
 
-    public int getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(String score) {
         this.score = score;
     }
 
@@ -144,11 +148,11 @@ public class User {
         this.notes = notes;
     }
 
-    public int getZipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(int zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 
@@ -160,8 +164,16 @@ public class User {
         this.gender = gender;
     }
 
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
     @Override
     public String toString(){
-        return "Name: " + name + " Rank: " + rank + "  Gender: " + gender + "\n";
+        return "Name: " + name + " Rank: " + rank + "  Gender: " + gender + "Country: "+ country+ "  Distance " +distance ;
     }
 }
