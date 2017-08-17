@@ -24,18 +24,15 @@ public class UserList {
         int counter=0;
         for (int i=0; i < list.size(); i++) {
             if(list.get(i).getCountry().equals("United States")) {
+                list.get(i).setStatus("Invited");
                 newList.add(list.get(i));
                 counter++;
-                System.out.println("index: "+i);
-                System.out.println("count: "+counter);
             }
             if(counter==50){
                 newIndex=i+1;
-                System.out.println("First Group count= 50" + "\n");
                 return newList;
             }
         }
-        System.out.println("First group not 50");
         return newList;
     }
 
@@ -43,22 +40,18 @@ public class UserList {
         System.out.println(newIndex);
             int counter = 0;
             for(int i=newIndex;i<list.size();i++){
-                if (list.get(i).getGender().equals("f")&&list.get(i).getCountry().equals("United States")){
+                if (list.get(i).getGender().equalsIgnoreCase("Woman")&&list.get(i).getCountry().equals("United States")){
+                    list.get(i).setStatus("Invited");
                     newList.add(list.get(i));
                     counter ++;
-                    System.out.println("index: "+i);
-                    System.out.println("count: "+counter);
                 }
                 if (counter==25){
-                    System.out.println("2nd group 25" + "\n");
                     splitIndex=i+1;
                     return newList;
                 }
                 splitIndex=i+1;
             }
 
-        System.out.println("not 25" + "\n");
-        System.out.println(splitIndex);
         return newList;
     }
 
@@ -66,13 +59,15 @@ public class UserList {
     public List <User> generateRestOne() {
 
         for (int i = newIndex; i < splitIndex; i++) {
-            if (!(list.get(i).getCountry().equals("United States")&&list.get(i).getGender().equals("f"))) {
+            if ((list.get(i).getCountry().equals("United States")&&(!(list.get(i).getGender().equalsIgnoreCase("Woman")))
+            &&list.get(i).getZipCode().length()==5)) {
+                System.out.println("index : " + i);
                 this.setDistances(i);
 
                 if (convertDistance(list.get(i).getDistance()) <= 100) {
+                    list.get(i).setStatus("Invited");
                     newList.add(list.get(i));
                     count++;
-                    System.out.println("index : " + i);
                     System.out.println("count: " + count);
                 }
             }
@@ -88,12 +83,13 @@ public class UserList {
 
         for (int i = splitIndex; i < list.size(); i++) {
 
-            if (list.get(i).getCountry().equals("United States")) {
+            if (list.get(i).getCountry().equals("United States")&&list.get(i).getZipCode().length()==5) {
+                System.out.println("index : " + i);
                 this.setDistances(i);
                 if (convertDistance(list.get(i).getDistance()) < 100) {
+                    list.get(i).setStatus("Invited");
                     newList.add(list.get(i));
                     count++;
-                    System.out.println("index : " + i);
                     System.out.println("count: " + count);
                 }
             }
@@ -109,16 +105,17 @@ public class UserList {
     public List<User> sortList() {
         generateTop50();
         generateNext25();
-            generateRestOne();
-            if(count<25){
-                generateRestTwo();
-            }
+        generateRestOne();
+        if(count<50){
+            generateRestTwo();
+        }
         return newList;
     }
 
     public void generateDistance(int index){
         apiKey ="AIzaSyAwEjKxNaz6zxYzN3hOqcAC4dBZ3O0IcCQ";
         url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins="+list.get(index).getZipCode()+"&destinations=+19801&key="+ apiKey;
+        System.out.println(url);
         RestTemplate restTemplate = new RestTemplate();
         distanceCalculator=restTemplate.getForObject(url ,DistanceCalculator.class);
     }

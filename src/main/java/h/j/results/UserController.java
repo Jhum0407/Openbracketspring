@@ -19,25 +19,29 @@ public class UserController {
     User[] users;
     UserList userList;
 
-    public void makePeople() throws java.io.IOException {
+    @RequestMapping("/json")
+    public String makePeople() throws java.io.IOException {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.UPPER_CAMEL_CASE);
-        users = mapper.readValue(new File("C:\\Users\\Jelehu\\Documents\\userlist.json"), User[].class);
-
+        users = mapper.readValue(new File("C:\\Users\\Jelehu\\Documents\\openbracket17.json"), User[].class);
+        String result ="";
+        for (User user:users ) {
+            result += user.toString() + "\n";
+        }
+            return result;
     }
 
 
     @RequestMapping("/sendfile")
     public User[] sendPeople() throws java.io.IOException {
-        RestTemplate restTemplate = new RestTemplate();
         makePeople();
         userList=new UserList(users);
         userList.sortList();
         ObjectMapper mapper = new ObjectMapper();
-        User[] finalList= userList.getNewList().toArray(new User[userList.getNewList().size()]);
-        mapper.writeValue(new File("C:\\Users\\Jelehu\\Documents\\newUserList.json"), finalList);
+        User[] finalList= userList.getList().toArray(new User[userList.getList().size()]);
+        mapper.writeValue(new File("C:\\Users\\Jelehu\\Documents\\total.json"), finalList);
         return finalList;
     }
+
 
 
 

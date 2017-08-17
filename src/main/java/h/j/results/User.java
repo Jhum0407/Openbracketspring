@@ -1,30 +1,31 @@
 package h.j.results;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.client.RestTemplate;
 
 
 public class User {
     @JsonIgnoreProperties(ignoreUnknown =true)
     private String name;
-    private String rank;
-    private String score;
+    private String username;
+    private int rank;
+    private double score;
     private String email;
     private String country;
     private String city;
     private String school;
-    private String eligibility;
+    private boolean workInUS;
     private String citizenship;
-    private String professional;
+    private String pro;
     private String graduation;
     private String experience;
     private String linkedIn;
     private String resume;
-    private String notes;
-    private String zipCode;
     private String gender;
+    private String zipCode;
     private String distance;
-
+    private String status="uninvited";
 
 
     public String getName() {
@@ -35,21 +36,59 @@ public class User {
         this.name = name;
     }
 
-    public String getRank() {
+    public int getRank() {
         return rank;
     }
 
 
-    public void setRank(String rank) {
-        this.rank = rank;
+    public void setRank(String srank) {
+        rank=Integer.parseInt(srank) ;
     }
 
-    public String getScore() {
+    public boolean isWorkInUS() {
+        return workInUS;
+    }
+
+    public void setWorkInUS(String cworkInUS) {
+        if(this.getCountry().equalsIgnoreCase("United States")){
+            workInUS=true;
+        }
+        else {
+
+            workInUS = false;
+        }
+    }
+
+    public String getPro() {
+        return pro;
+    }
+
+    public void setPro(String pro) {
+        this.pro = pro;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public double getScore() {
         return score;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public void setScore(String stscore) {
+        score = Double.parseDouble(stscore);
     }
 
     public String getEmail() {
@@ -84,13 +123,7 @@ public class User {
         this.school = school;
     }
 
-    public String getEligibility() {
-        return eligibility;
-    }
 
-    public void setEligibility(String eligibility) {
-        this.eligibility = eligibility;
-    }
 
     public String getCitizenship() {
         return citizenship;
@@ -98,14 +131,6 @@ public class User {
 
     public void setCitizenship(String citizenship) {
         this.citizenship = citizenship;
-    }
-
-    public String getProfessional() {
-        return professional;
-    }
-
-    public void setProfessional(String professional) {
-        this.professional = professional;
     }
 
     public String getGraduation() {
@@ -140,20 +165,18 @@ public class User {
         this.resume = resume;
     }
 
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
     public String getZipCode() {
+
         return zipCode;
     }
 
     public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+        if (zipCode.length()<5){
+            this.zipCode = "0"+zipCode;
+        }
+        else {
+            this.zipCode = zipCode;
+        }
     }
 
     public String getGender() {
@@ -172,8 +195,10 @@ public class User {
         this.distance = distance;
     }
 
+
     @Override
     public String toString(){
-        return "Name: " + name + " Rank: " + rank + "  Gender: " + gender + "Country: "+ country+ "  Distance " +distance ;
+        return "Name: " + name + " Rank: " + rank + " Score: " + score + "  Gender: " + gender
+                + " ZIP: "+ zipCode + " Country: "+ country+ "  Distance " +distance +" Eligibile: " + workInUS + " status: " + status;
     }
 }
