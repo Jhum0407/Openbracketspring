@@ -39,7 +39,7 @@ public class  Mail {
         msg.setFrom(new InternetAddress(FROM));
         msg.setRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
         msg.setSubject("OpenBracket Invite Test");
-        msg.setContent("Hello " + user.getName() + ", you have been invited to participate in the Open Bracket Competit  ion. You" +
+        msg.setContent("Hello " + user.getName() + ", you have been invited to participate in the Open Bracket Competition. You" +
                 "can log in at https://openbracket.org/login. Your username is your email address and your password is ???","text/plain");
 
         // Create a transport.

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.sun.org.apache.xpath.internal.SourceTree;
@@ -18,28 +19,28 @@ import org.springframework.web.client.RestTemplate;
 public class UserController {
     User[] users;
     UserList userList;
+    FirebaseData firebaseData= new FirebaseData();
+    Mail mail= new Mail();
 
     @RequestMapping("/json")
-    public String makePeople() throws java.io.IOException {
+    public User[] makePeople() throws java.io.IOException, Exception {
+
         ObjectMapper mapper = new ObjectMapper();
         users = mapper.readValue(new File("C:\\Users\\Jelehu\\Documents\\openbracket17.json"), User[].class);
-        String result ="";
-        for (User user:users ) {
-            result += user.toString() + "\n";
-        }
-            return result;
+            return users;
     }
 
 
     @RequestMapping("/sendfile")
-    public User[] sendPeople() throws java.io.IOException {
+    public List sendPeople() throws java.io.IOException, Exception {
         makePeople();
         userList=new UserList(users);
         userList.sortList();
         ObjectMapper mapper = new ObjectMapper();
-        User[] finalList= userList.getList().toArray(new User[userList.getList().size()]);
-        mapper.writeValue(new File("C:\\Users\\Jelehu\\Documents\\total.json"), finalList);
-        return finalList;
+        mapper.writeValue(new File("C:\\Users\\Jelehu\\Documents\\userlist.json"), userList.getNewList());
+       // mail.sendBulk(userList.getNewList());
+        return userList.getNewList();
+
     }
 
 

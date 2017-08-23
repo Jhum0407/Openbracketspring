@@ -1,11 +1,11 @@
 package h.j.results;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.*;
 public class UserList {
+    private int id = 1;
     private DistanceCalculator distanceCalculator;
-    private List<User> list= new ArrayList<User>();
-    private List <User> newList = new ArrayList<User>();
+    private List<User> list= new ArrayList<>();
+    private List<User> newList = new ArrayList<>();
     private String apiKey;
     private String url;
     private int newIndex;
@@ -15,12 +15,12 @@ public class UserList {
 
     }
     public UserList(User[] users){
-        for (User user:users) {
+          for (User user:users) {
             this.add(user);
         }
     }
 
-    public List <User> generateTop50() {
+    public List<User> generateTop50() {
         int counter=0;
         for (int i=0; i < list.size(); i++) {
             if(list.get(i).getCountry().equals("United States")) {
@@ -36,7 +36,7 @@ public class UserList {
         return newList;
     }
 
-    public List <User> generateNext25(){
+    public List<User> generateNext25(){
         System.out.println(newIndex);
             int counter = 0;
             for(int i=newIndex;i<list.size();i++){
@@ -56,7 +56,7 @@ public class UserList {
     }
 
 
-    public List <User> generateRestOne() {
+    public List<User> generateRestOne() {
 
         for (int i = newIndex; i < splitIndex; i++) {
             if ((list.get(i).getCountry().equals("United States")&&(!(list.get(i).getGender().equalsIgnoreCase("Woman")))
@@ -79,7 +79,7 @@ public class UserList {
             return newList;
 
     }
-    public List <User> generateRestTwo() {
+    public List<User> generateRestTwo() {
 
         for (int i = splitIndex; i < list.size(); i++) {
 
@@ -158,10 +158,6 @@ public class UserList {
     @Override
     public String toString(){
         String result = "";
-        for (User user:newList
-                ) {
-            result+= user.toString() + "\n";
-        }
-        return result;
+        return "Done";
     }
 }
