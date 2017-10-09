@@ -2,7 +2,6 @@
   <library name="Maven: ch.qos.logback:logback-classic:1.1.11">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.1.11/logback-classic-1.1.11.jar!/" />
-      <root url="jar://$USER_HOME$/Documents/lib/javax.mail.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/ch/qos/logback/logback-classic/1.1.11/logback-classic-1.1.11-javadoc.jar!/" />

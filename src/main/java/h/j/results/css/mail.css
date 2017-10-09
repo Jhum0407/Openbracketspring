@@ -1,0 +1,29 @@
+
+#name{
+    text-align: center;
+    color: white;
+}
+#welcome{
+    text-align: center;
+    color: white;
+    padding-bottom: 10px;
+}
+#body{
+    text-align: center;
+    color: white;
+}
+
+#firstpic{
+    position:relative;
+    left:30%;
+}
+#secondpic{
+    position:relative;
+    left:30%;
+}
+#top{
+    background-color: lightblue
+}
+#bottom{
+    background-color: navy;
+}

@@ -11,33 +11,41 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 public class FirebaseDataTest {
+    Clock clock;
     FirebaseData data;
     User andy;
     User jeriah;
     User jeriahAgain;
-    Map<String, User> map;
+    Map<String, Clock> map;
 
     @Before
     public void setUp(){
+        clock = new Clock();
+        clock.setTime("3:00");
         data = new FirebaseData();
         map=new HashMap<>();
-        andy= new User();
-        andy.setName("Andy Kim");
-        andy.setEmail("andyvkim@gmail.com");
-        jeriah=new User();
-        jeriah.setEmail("jhum0407@yahoo.com");
-        jeriah.setName("Jeriah Humphrey");
-        jeriahAgain=new User();
-        jeriahAgain.setEmail("jeriah.humphrey@outlook.com");
-        jeriahAgain.setName("Jeriah Humphrey");
-        map.put(jeriah.getName(),jeriah);
-        map.put(andy.getName(),andy);
-        map.put(jeriahAgain.getName(),jeriahAgain);
+       map.put("time",clock);
+    }
+
+    @Test
+    public void initializeTest() throws Exception{
+        data.initialize();
+    }
+
+    @Test
+    public void getUserDataTest()throws Exception{
+        data.initialize();
+        data.getUserData();
+        assertEquals("Error fetching user data", data.getMessage());
     }
     @Test
     public void addToDatabase() throws Exception {
         data.initialize();
         data.addToDatabase(map);
+    }
+    @Test
+    public void SendMessageTest(){
+        data.sendMessage(55);
     }
 
 }

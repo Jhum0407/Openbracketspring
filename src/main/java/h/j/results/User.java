@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.client.RestTemplate;
 
 
-public class User {
+public class User implements Comparable {
     @JsonIgnoreProperties(ignoreUnknown =true)
     private String name;
     private String username;
@@ -20,13 +20,31 @@ public class User {
     private String pro;
     private String graduation;
     private String experience;
-    private String linkedIn;
     private String resume;
     private String gender;
     private String zipCode;
     private String distance;
-    private String status="uninvited";
+    private String status;
+   // private Invitation invitation;
+    private String linkedIn;
 
+    public String getLinkedIn() {
+        return linkedIn;
+    }
+
+    public void setLinkedIn(String linkedIn) {
+        this.linkedIn = linkedIn;
+    }
+/*
+    public Invitation getInvitation() {
+        return invitation;
+    }
+
+    public void setInvitation(Invitation invitation) {
+        this.invitation = invitation;
+    }
+
+*/
 
     public String getName() {
         return name;
@@ -149,13 +167,11 @@ public class User {
         this.experience = experience;
     }
 
-    public String getLinkedIn() {
-        return linkedIn;
+    public double changeDistance(){
+        distance=distance.replace(",","");
+        return Double.parseDouble(distance.substring(0,distance.length()-3));
     }
 
-    public void setLinkedIn(String linkedIn) {
-        this.linkedIn = linkedIn;
-    }
 
     public String getResume() {
         return resume;
@@ -171,13 +187,9 @@ public class User {
     }
 
     public void setZipCode(String zipCode) {
-        if (zipCode.length()<5){
-            this.zipCode = "0"+zipCode;
+
+            this.zipCode=zipCode;
         }
-        else {
-            this.zipCode = zipCode;
-        }
-    }
 
     public String getGender() {
         return gender;
@@ -198,7 +210,13 @@ public class User {
 
     @Override
     public String toString(){
-        return "Name: " + name + " Rank: " + rank + " Score: " + score + "  Gender: " + gender
-                + " ZIP: "+ zipCode + " Country: "+ country+ "  Distance " +distance +" Eligibile: " + workInUS + " status: " + status;
+        return name + " " + username + "\n";
+    }
+
+
+    @Override
+    public int compareTo(Object object) {
+        User user= (User) object;
+        return(int)(this.changeDistance()-user.changeDistance());
     }
 }

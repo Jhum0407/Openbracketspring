@@ -5,7 +5,13 @@ public class UserList {
     private int id = 1;
     private DistanceCalculator distanceCalculator;
     private List<User> list= new ArrayList<>();
+    private List <NewUser> shortlist= new ArrayList<>();
     private List<User> newList = new ArrayList<>();
+    private List <User> americanList= new ArrayList<>();
+
+
+
+    private List<User> roundTwoList= new ArrayList<>();
     private String apiKey;
     private String url;
     private int newIndex;
@@ -14,10 +20,18 @@ public class UserList {
     public UserList(){
 
     }
-    public UserList(User[] users){
-          for (User user:users) {
+    public UserList(NewUser[] mailUsers){
+          for (NewUser user:mailUsers) {
+            this.addShortList(user);
+        }
+    }
+    public UserList(User[]users){
+        for (User user:users ) {
             this.add(user);
         }
+    }
+    public List<User> getRoundTwoList() {
+        return roundTwoList;
     }
 
     public List<User> generateTop50() {
@@ -25,6 +39,7 @@ public class UserList {
         for (int i=0; i < list.size(); i++) {
             if(list.get(i).getCountry().equals("United States")) {
                 list.get(i).setStatus("Invited");
+                this.setDistances(i);
                 newList.add(list.get(i));
                 counter++;
             }
@@ -36,6 +51,19 @@ public class UserList {
         return newList;
     }
 
+    public User createUser(String name){
+        User user = new User();
+        return user;
+    }
+
+    public List<NewUser> getShortlist() {
+        return shortlist;
+    }
+
+    public void setShortlist(List<NewUser> shortlist) {
+        this.shortlist = shortlist;
+    }
+
     public List<User> generateNext25(){
         System.out.println(newIndex);
             int counter = 0;
@@ -43,6 +71,7 @@ public class UserList {
                 if (list.get(i).getGender().equalsIgnoreCase("Woman")&&list.get(i).getCountry().equals("United States")){
                     list.get(i).setStatus("Invited");
                     newList.add(list.get(i));
+                    this.setDistances(i);
                     counter ++;
                 }
                 if (counter==25){
@@ -101,6 +130,24 @@ public class UserList {
         return newList;
     }
 
+    public List<User> generateSecondRound() {
+
+        for (int i = 0; i < list.size(); i++) {
+
+            if (list.get(i).getStatus().equalsIgnoreCase("no")){
+                System.out.println("index : " + i);
+                this.setDistances(i);
+                    roundTwoList.add(list.get(i));
+
+            }
+
+        }
+        Collections.sort(roundTwoList);
+
+        return roundTwoList;
+
+    }
+
 
     public List<User> sortList() {
         generateTop50();
@@ -118,6 +165,15 @@ public class UserList {
         System.out.println(url);
         RestTemplate restTemplate = new RestTemplate();
         distanceCalculator=restTemplate.getForObject(url ,DistanceCalculator.class);
+    }
+
+    public List<User> getAmericanList() {
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getCountry().equalsIgnoreCase("United States")){
+                americanList.add(list.get(i));
+            }
+        }
+        return americanList;
     }
 
     public String setDistance(User user, String distance){
@@ -149,6 +205,10 @@ public class UserList {
         list.add(user);
     }
 
+    public void addShortList(NewUser newUser){
+        shortlist.add(newUser);
+    }
+
     public void setList(List <User> list) {
         this.list = list;
     }
@@ -158,6 +218,11 @@ public class UserList {
     @Override
     public String toString(){
         String result = "";
-        return "Done";
+        for (User user:list
+             ) {
+            result += user.toString() + " \n";
+
+        }
+        return result;
     }
 }
